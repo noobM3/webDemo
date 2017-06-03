@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>登录</title>
+</head>
+<body>
+    <div  id="myDiv" >
+	    <form>
+		    学号：<input type="text" id="sno" name="sno" /><br> 
+		    姓名：<input type="text" id="sname" name="sname"/><br>
+          <input type="button" value="登录" onclick="login()">
+	    </form>
+    </div>
+	
+	<script type="text/javascript">
+	   function ajax()
+	   {
+	       var xmlhttp; //定义一个AJAX对象
+	         if (window.XMLHttpRequest) 
+	          {// code for IE7+, Firefox, Chrome, Opera, Safari
+	             xmlhttp=new XMLHttpRequest(); 
+	          } 
+	        else {// code for IE6, IE5 
+	           xmlhttp=new ActiveXObject("Microsoft.XMLHTTP"); 
+	        } 
+	       return xmlhttp;
+	       
+	   }
+	   
+	   function login()
+	   {
+		   var xmlHttp = ajax();
+		   var sno = document.getElementById("sno").value;
+		   var sname = document.getElementById("sname").value;
+		   
+		   xmlHttp.open("get","login?sno="+sno+"&sname="+sname,true);
+		   
+		   xmlHttp.onreadystatechange = function()
+		   {
+			   if(xmlHttp.readyState == 4 && xmlHttp.status == 200)
+			   {
+				   if(xmlHttp.getResponseHeader("request_auth") != null &&
+					  xmlHttp.getResponseHeader("request_auth") == "1")
+				   {
+					   document.getElementById("myDiv").innerHTML = 
+						   "Welcome ! Student:" + sno + " " + sname + 
+						   "<br><a href = \"system.html\">系统入口</a>";
+					   
+				   }
+				   else
+				   {
+					   window.location.href = "register";
+				   }
+			   }
+		   }
+		   
+		   xmlHttp.send();
+	   }
+	</script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>学生信息管理系统</title>
+</head>
+<h1>学生信息管理系统</h1>
+<hr>
+<body onload="init()">
+    <div id="myDiv"></div>
+    <div id="alter"></div>
+</body>
+<script type="text/javascript">
+function ajax()
+{
+    var xmlhttp; //定义一个AJAX对象
+      if (window.XMLHttpRequest) 
+       {// code for IE7+, Firefox, Chrome, Opera, Safari
+          xmlhttp=new XMLHttpRequest(); 
+       } 
+     else {// code for IE6, IE5 
+        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP"); 
+     } 
+    return xmlhttp;
+    
+}
+
+ function init()
+ { 
+     var xmlhttp = ajax(); 
+     
+     xmlhttp.open("get","management",true); 
+     
+     xmlhttp.onreadystatechange=function() 
+     {    
+         if (xmlhttp.readyState==4 && xmlhttp.status==200) 
+         { 
+            var str=xmlhttp.responseText;
+            var json=eval("("+str+")");//把json字符串直接转换成javascript认可的json对象
+            document.getElementById("myDiv").innerHTML=display(json);
+        
+         } 
+     } 
+
+     xmlhttp.send();
+ 
+ }
+ 
+ function display(json)
+ {
+     var content="<table border=1> <th>学号</th><th>姓名</th><th>年龄</th><th>性别</th><th>院系</th><th>操作</th>";
+     for(var i=0;i<json.length;i++)
+         content+="<tr><td>"+json[i].sno+"</td><td>"+json[i].sname+"</td><td>"+json[i].age+"</td><td>"
+                       +json[i].sex+"</td><td>"+json[i].depart+"</td><td><a href=\"javascript:alter()\">修改</a>"
+                       +"&nbsp&nbsp&nbsp"
+                       +"<a href=\"javascript:del()\">删除</a>"
+                       +
+                       "</td></tr>"; 
+    content+="</table>";
+     return content;
+ }
+
+       // TODO
+ function alter() //修改Div--alter的innerHTML
+ {
+	 document.write("nihao");
+ }
+       //TODO
+ function del()
+ {
+	 document.write("delete");
+ }
+ 
+</script>
+</html>
